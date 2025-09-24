@@ -5,7 +5,8 @@ export const useAppStore = defineStore('app', () => {
   const bandeirasSorteadas = ref([])
   const bandeiraCerta = ref(null)
   const qtdBandeiras = 9 
-  const doubleCount = computed(() => count.value * 2)
+  const acertos = ref(0)
+  
   
   
   function sortearBandeiras(bandeiras) {
