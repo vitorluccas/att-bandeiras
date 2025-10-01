@@ -6,6 +6,10 @@ export const useAppStore = defineStore('app', () => {
   const bandeiraCerta = ref(null)
   const qtdBandeiras = 9 
   const acertos = ref(0)
+  const tempoInicio = ref(0)
+  const cronometro = ref(null)
+  const volumeOn = ref(true) 
+
   
   
   
@@ -21,6 +25,8 @@ export const useAppStore = defineStore('app', () => {
     const correta = Math.floor(Math.random() * qtdBandeiras);
     bandeiraCerta.value = bandeirasSorteadas.value[correta]    
   }
-
-  return {bandeirasSorteadas, sortearBandeiras, bandeiraCerta}
+   function toggleVolume() {
+    volumeOn.value = !volumeOn.value;
+   }
+  return {bandeirasSorteadas, sortearBandeiras, bandeiraCerta, tempoInicio, cronometro, acertos, volumeOn, toggleVolume}
 })

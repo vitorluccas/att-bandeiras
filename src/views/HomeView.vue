@@ -11,7 +11,10 @@ import { RouterLink, RouterView } from 'vue-router'
   <main>
     <h1>Encontre a bandeira</h1>
     <p>Indique a bandeira que corresponde ao país indicado</p>
-    <button><router-link to="flag-app">iniciar</router-link></button>
+    <p>
+        <router-link to="flag-app">iniciar</router-link>
+    </p>
+  
   </main>
 </template>
 <style>
@@ -44,6 +47,7 @@ header img {
     max-width: 100%;
     height: auto;
     box-shadow: 0 4px 10px rgba(255, 254, 254, 0.1);
+    text-align: center  ;
 }
 
 /* Estilos para os títulos e parágrafos */
@@ -62,7 +66,7 @@ p {
 }
 
 /* Estilos para o botão */
-button {
+p a {
     background: linear-gradient(to right, #068214, #068214); /* Gradiente de cor */
     color: white;
     border: none;
@@ -76,17 +80,6 @@ button {
 }
 
 
-
-
-
-/* Estilos para o link dentro do botão */
-button router-link {
-    text-decoration: none;
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.2rem;
-    display: block; /* Ocupa a área do botão */
-}
 
 /* Estilos para dispositivos menores */
 @media (max-width: 600px) {

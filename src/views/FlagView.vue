@@ -7,21 +7,65 @@ const audioElement = new Audio(acerto);
 const audioErro = new Audio(erro);
 const flagStore=useFlagStore();
 const appStore = useAppStore();
-appStore.acertos=0
+
+// ATENÇÃO: Se 'acertos' é um ref na sua store (como recomendado), 
+// você deve usar appStore.acertos.value = 0;
+// Se não, o seu código atual (appStore.acertos = 0;) está correto para o seu setup,
+// mas pode não ser reativo no template.
+appStore.acertos = 0; 
+console.log(appStore.acertos)
 appStore.sortearBandeiras(flagStore.flags);
+appStore.tempoInicio = Date.now();
+
+
+import router from '@/router/index';
+
+const LIMITE_TEMPO_MS = 10000;
+
+
+let intervalo = setInterval(() => {
+    let tempoDecorrido = Date.now() - appStore.tempoInicio;
+    
+    
+    appStore.cronometro = new Date(tempoDecorrido).toString().substring(19, 24);
+    
+    
+    if (tempoDecorrido >= LIMITE_TEMPO_MS) {
+        
+        clearInterval(intervalo);
+        
+        router.push({ name: 'fim-app' });
+        console.log(intervalo)
+    } 
+    
+}, 1000);
+
+// --- FUNÇÃO DE CONTROLE DE JOGO ---
 function verificarAcerto(id) {
  
   if(appStore.bandeiraCerta.id == id){
     appStore.bandeirasSorteadas = [];
     console.log(id)
     appStore.sortearBandeiras(flagStore.flags)
-    audioElement.play();
-    appStore.acertos++
+    
+    // VERIFICAR VOLUME ANTES DE TOCAR (Como implementado na nossa última interação)
+    if (appStore.volumeOn) {
+        audioElement.play();
+    }
+    
+    appStore.acertos++ // Use .value se for um ref
   }
   else{
-    audioErro.play(erro)
+    // VERIFICAR VOLUME ANTES DE TOCAR
+    if (appStore.volumeOn) {
+        audioErro.play(erro)
+    }
   }
-  
+}
+
+// --- FUNÇÃO DE CONTROLE DE VOLUME (MOVIDA PARA FORA) ---
+function handleToggleVolume() {
+    appStore.toggleVolume();
 }
 
 </script>
@@ -29,13 +73,20 @@ function verificarAcerto(id) {
   <header>
     <p>
       <img src="/public/tempo.png" alt="cronometro">
-      <span>cronometro</span> 
-      <img src="/public/volume.png" alt="volume">
+      <span>{{appStore.cronometro}}</span> 
+      
+      <img 
+        :src="appStore.volumeOn ? '/public/volume.png' : '/public/mute.png'" 
+        alt="volume"
+        @click="handleToggleVolume"
+        class="volume-icon"
+      >
+      
     </p>
   </header>
   <main>
     
-    <H1>{{ appStore.bandeiraCerta.name }}</H1>
+    <h1>{{ appStore.bandeiraCerta.name }}</h1>
     <ul>
       <li v-for="bandeira in appStore.bandeirasSorteadas">
                      
@@ -70,6 +121,7 @@ header {
     border-radius: 20px;
     padding: 15px;
     margin-bottom: 2rem;
+    margin: 35px 0 0 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -86,6 +138,14 @@ header img {
     width: auto;
 }
 
+.volume-icon {
+    cursor: pointer; /* Indica que é clicável */
+    transition: opacity 0.2s;
+}
+
+.volume-icon:hover {
+    opacity: 0.8;
+}
 header span {
     font-size: 1.2rem;
     font-weight: 600;
