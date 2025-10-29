@@ -1,94 +1,162 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-import { RouterLink, RouterView } from 'vue-router'
+<template>
+  <div class="app-screen home-screen">
+    <div class="bg-shape bg-tl" style="background-color: #fddbe1b3;"></div>
+    <div class="bg-shape bg-bl" style="background-color: #dcf8e3b3;"></div>
 
+    <header class="app-header home-header-align">Home</header>
+
+    <div class="home-content">
+        <div class="lamp-container">
+            <div class="lamp-head"></div>
+            <div class="lamp-stem"></div>
+            <div class="lamp-base"></div>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-icons">
+                <div class="logo-sq logo-shape" style="background-color: #5599ff;"></div>
+                <div class="logo-sq logo-tr logo-shape" style="background-color: #66cc99;"></div>
+                <div class="logo-sq logo-cr logo-shape" style="background-color: #ff6666;"></div>
+                <div class="logo-sq logo-shape" style="background-color: #ffcc66;"></div>
+            </div>
+            <h1>Padrão em<br>JOGO</h1>
+        </div>
+    </div>
+    
+    <RouterLink to="/game" class="btn-play">JOGAR</RouterLink>
+  </div>
+</template>
+
+<script setup>
+import { RouterLink } from 'vue-router'
+// Imports e lógica do Pinia/Vue Store podem ser adicionados aqui se necessário.
 </script>
 
-<template>
-  <header>
-    <img src="../components/ChatGPT Image 15 de set. de 2025, 18_44_21 1.png" alt="Imagens de bamdeiras"></img>
-  </header>
-  <main>
-    <h1>Encontre a bandeira</h1>
-    <p>Indique a bandeira que corresponde ao país indicado</p>
-    <p>
-        <router-link to="flag-app">iniciar</router-link>
-    </p>
-  
-  </main>
-</template>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+<style scoped>
+/* CORES */
+:root {
+    --color-background: #fcfcfc;
+    --color-text-dark: #444;
+    --color-header-text: #b0b0b0;
+    --btn-primary-bg: #f5ee8b; /* Amarelo Jogar */
+}
 
-/* Estilos globais do corpo da página */
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #fefefe; /* Cor de fundo suave */
-    color: #333;
+/* Base da Tela */
+.app-screen {
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    height: 100vh;
-    box-sizing: border-box; /* Garante que o padding não cause overflow */
-}
-
-/* Estilos para o container principal */
-main {
-    text-align: center;
-    padding: 2.5rem 2rem;
-    max-width: 450px;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
+    max-width: 400px;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: var(--color-background);
+    color: var(--color-text-dark);
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    justify-content: space-between;
 }
 
-/* Estilos para o cabeçalho */
+/* Header */
+.app-header {
+    width: 100%;
+    font-weight: bold;
+    color: var(--color-header-text);
+    padding-bottom: 20px;
+    font-size: 0.8em;
+    z-index: 1;
+}
+.home-header-align { text-align: left; }
 
-
-header img {
-    max-width: 100%;
-    height: auto;
-    box-shadow: 0 4px 10px rgba(255, 254, 254, 0.1);
-    text-align: center  ;
+/* Elementos de Fundo (Círculos) */
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 0;
+}
+.bg-tl { /* Top Left */
+    top: 0; left: 0; width: 150px; height: 150px;
+    transform: translate(-30%, -30%);
+}
+.bg-bl { /* Bottom Left */
+    bottom: 0; left: 0; width: 130px; height: 130px;
+    transform: translate(-30%, 30%);
 }
 
-/* Estilos para os títulos e parágrafos */
-h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #4a4a4a;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
+/* Conteúdo Principal */
+.home-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+    position: relative;
 }
 
-p {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 2.5rem;
+/* Logo e Texto */
+.logo {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    text-align: left;
+    font-weight: bold;
+    line-height: 1.1;
+    font-size: 1.4em;
+}
+.logo h1 { font-size: 1em; }
+.logo-icons {
+    display: inline-flex;
+    gap: 3px;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+.logo-shape { width: 12px; height: 12px; border-radius: 2px; }
+.logo-cr { border-radius: 50%; }
+.logo-tr { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+
+/* Lampião (Simulação) */
+.lamp-container {
+    position: absolute;
+    top: 100px; 
+    right: 50px; 
+    width: 100px;
+    height: 300px;
+}
+.lamp-head {
+    width: 60px; height: 40px; background-color: #c0c0c0;
+    border-radius: 50% 50% 5px 5px / 100% 100% 5px 5px;
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+}
+.lamp-stem {
+    width: 8px; height: 280px; background-color: #c0c0c0;
+    position: absolute; top: 35px; left: 50%; transform: translateX(-50%);
+}
+.lamp-base {
+    width: 80px; height: 5px; background-color: #c0c0c0;
+    border-radius: 2px; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
 }
 
-/* Estilos para o botão */
-p a {
-    background: linear-gradient(to right, #068214, #068214); /* Gradiente de cor */
-    color: white;
+/* Botão Jogar (Triângulo) */
+.btn-play {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 120px;
+    height: 50px;
+    background-color: var(--btn-primary-bg);
+    clip-path: polygon(10% 0%, 100% 50%, 10% 100%); 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: var(--color-text-dark);
     border: none;
-    border-radius: 50px;
-    padding: 1rem 3.5rem; /* Padding maior para o botão */
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 5px 20px rgba(66, 233, 63, 0.4); /* Sombra com cor do gradiente */
-    width: 100%; /* Ocupa a largura total */
-    max-width: 250px; /* Limite de largura para não ficar muito grande */
-}
-
-
-
-/* Estilos para dispositivos menores */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    p {
-        font-size: 1rem;
-    }
+    font-size: 1.1em;
+    z-index: 2;
 }
 </style>
